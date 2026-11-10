@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#101827">
-  <title>Auditoría ERP | Panel de control</title>
+  <title>Auditoría ERP | GesMetal</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -12,19 +12,21 @@
     <aside class="sidebar">
       <div class="brand">
         <div class="brand-mark">A</div>
-        <div><strong>Metal<span>Verde</span></strong><small>CONTROL INTERNO · ERP</small></div>
+        <div><strong>Ges<span>Metal</span></strong><small>CONTROL INTERNO · ERP</small></div>
       </div>
       <div class="side-label">ESPACIO DE TRABAJO</div>
       <nav class="side-nav">
         <button class="nav-item active" data-tab="overview"><span class="nav-icon">▦</span> Resumen general</button>
         <button class="nav-item" data-tab="uploads"><span class="nav-icon">⇧</span> Carga de información</button>
-        <button class="nav-item" data-tab="inventory"><span class="nav-icon">▤</span> Inventarios</button>
+        <button class="nav-item" data-tab="inventory"><span class="nav-icon">▤</span> Inventarios & Productos</button>
+        <button class="nav-item" data-tab="bodegas"><span class="nav-icon">◫</span> Bodegas</button>
         <button class="nav-item" data-tab="users"><span class="nav-icon">♙</span> Usuarios y permisos</button>
         <button class="nav-item" data-tab="evidence"><span class="nav-icon">▧</span> Evidencias de acceso</button>
         <button class="nav-item" data-tab="project"><span class="nav-icon">◇</span> Proyecto IoT</button>
       </nav>
       <div class="sidebar-bottom">
-        <div class="system-status"><i></i><span>Sistema local activo</span></div>
+        <div class="system-status"><i></i><span>CRUD local activo</span></div>
+        <button id="resetDataBtn" class="btn btn-secondary" style="width:100%; font-size:10px; padding:6px; margin-bottom:8px;">↺ Restablecer datos demo</button>
         <small>Demostración de auditoría<br>Periodo: 2027 · S1</small>
       </div>
     </aside>
@@ -32,80 +34,331 @@
     <main class="main">
       <header class="topbar">
         <div class="breadcrumb">Auditoría interna <span>/</span> <b id="currentSection">Resumen general</b></div>
-        <div class="top-actions"><span class="period-pill">◷ &nbsp; Primer semestre 2027</span><span class="avatar">AI</span></div>
+        <div class="top-actions">
+          <span class="period-pill">◷ &nbsp; Primer semestre 2027</span>
+          <span class="avatar">AI</span>
+        </div>
       </header>
 
+      <!-- SECCIÓN: RESUMEN GENERAL -->
       <section class="panel active" id="overview">
         <div class="page-heading">
-          <div><p class="eyebrow">CENTRO DE CONTROL</p><h1>Resumen de auditoría</h1><p class="subtitle">Vista consolidada de los datos y procedimientos de auditoría del ERP.</p></div>
+          <div>
+            <p class="eyebrow">CENTRO DE CONTROL</p>
+            <h1>Resumen de auditoría</h1>
+            <p class="subtitle">Vista consolidada de los datos, objetos maestros y procedimientos de auditoría del ERP.</p>
+          </div>
           <button class="btn btn-primary" data-goto="uploads">＋ Cargar información</button>
         </div>
         <div class="welcome-card">
-          <div><div class="welcome-tag">AUDITORÍA INTEGRAL · 2027</div><h2>Información centralizada.<br><span>Hallazgos bajo control.</span></h2><p>Carga los archivos de evidencia para ejecutar las validaciones disponibles y consultar los resultados.</p></div>
-          <div class="welcome-art"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="art-core">✓</div><div class="art-chip chip-a">ERP</div><div class="art-chip chip-b">CSV</div><div class="art-chip chip-c">AUDIT</div></div>
+          <div>
+            <div class="welcome-tag">AUDITORÍA INTEGRAL · 2027</div>
+            <h2>Información centralizada.<br><span>Hallazgos y gestión bajo control.</span></h2>
+            <p>Monitorea y gestiona en tiempo real los catálogos maestros (Usuarios, Productos, Bodegas) o carga archivos de auditoría.</p>
+          </div>
+          <div class="welcome-art">
+            <div class="orbit orbit-one"></div>
+            <div class="orbit orbit-two"></div>
+            <div class="art-core">✓</div>
+            <div class="art-chip chip-a">ERP</div>
+            <div class="art-chip chip-b">CRUD</div>
+            <div class="art-chip chip-c">AUDIT</div>
+          </div>
         </div>
-        <div class="section-heading"><div><h2>Estado de la información</h2><p>Archivos reconocidos y procesados en esta sesión.</p></div><span class="live-label"><i></i> EN TIEMPO REAL</span></div>
+        <div class="section-heading">
+          <div>
+            <h2>Estado de la información</h2>
+            <p>Archivos y catálogos procesados en esta sesión.</p>
+          </div>
+          <span class="live-label"><i></i> EN TIEMPO REAL</span>
+        </div>
         <div class="stats-grid">
-          <article class="stat-card"><div class="stat-top"><span>Archivos cargados</span><span class="stat-icon blue">⇧</span></div><strong id="kpiFiles">0</strong><small id="kpiFilesSub">de 21 esquemas disponibles</small></article>
-          <article class="stat-card"><div class="stat-top"><span>Filas procesadas</span><span class="stat-icon violet">▤</span></div><strong id="kpiRows">0</strong><small>Registros leídos correctamente</small></article>
-          <article class="stat-card"><div class="stat-top"><span>Áreas con información</span><span class="stat-icon teal">◫</span></div><strong id="kpiAreas">0</strong><small>De 5 áreas con esquemas CSV</small></article>
-          <article class="stat-card"><div class="stat-top"><span>Archivos con errores</span><span class="stat-icon orange">!</span></div><strong id="kpiErrors">0</strong><small>Requieren revisión</small></article>
+          <article class="stat-card">
+            <div class="stat-top"><span>Archivos cargados</span><span class="stat-icon blue">⇧</span></div>
+            <strong id="kpiFiles">0</strong>
+            <small id="kpiFilesSub">de esquemas disponibles</small>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span>Filas procesadas</span><span class="stat-icon violet">▤</span></div>
+            <strong id="kpiRows">0</strong>
+            <small>Registros leídos correctamente</small>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span>Áreas con información</span><span class="stat-icon teal">◫</span></div>
+            <strong id="kpiAreas">0</strong>
+            <small>De 5 áreas auditadas</small>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span>Archivos con errores</span><span class="stat-icon orange">!</span></div>
+            <strong id="kpiErrors">0</strong>
+            <small>Requieren revisión</small>
+          </article>
         </div>
         <div class="overview-grid">
-          <article class="content-card"><div class="card-heading"><div><h3>Áreas de auditoría</h3><p>Disponibilidad de estructuras de datos.</p></div></div><div id="areaOverview" class="area-list"></div></article>
-          <article class="content-card"><div class="card-heading"><div><h3>Accesos rápidos</h3><p>Continúa con una tarea de auditoría.</p></div></div>
+          <article class="content-card">
+            <div class="card-heading">
+              <div>
+                <h3>Áreas de auditoría</h3>
+                <p>Disponibilidad de estructuras de datos.</p>
+              </div>
+            </div>
+            <div id="areaOverview" class="area-list"></div>
+          </article>
+          <article class="content-card">
+            <div class="card-heading">
+              <div>
+                <h3>Gestión y accesos rápidos</h3>
+                <p>Accede directamente a módulos CRUD y de control.</p>
+              </div>
+            </div>
             <div class="quick-links">
-              <button data-goto="uploads"><span class="quick-icon blue">⇧</span><span><b>Cargar archivos CSV</b><small>Importar datos de los módulos ERP</small></span><span class="arrow">→</span></button>
-              <button data-goto="inventory"><span class="quick-icon teal">▤</span><span><b>Conciliar inventarios</b><small>Comparar ERP, Excel y conteos físicos</small></span><span class="arrow">→</span></button>
-              <button data-goto="users"><span class="quick-icon violet">♙</span><span><b>Revisar accesos</b><small>Identificar cuentas y sesiones riesgosas</small></span><span class="arrow">→</span></button>
+              <button data-goto="bodegas">
+                <span class="quick-icon teal">◫</span>
+                <span><b>Gestión de Bodegas (CRUD)</b><small>Administrar centros de almacenamiento y capacidad</small></span>
+                <span class="arrow">→</span>
+              </button>
+              <button data-goto="inventory">
+                <span class="quick-icon blue">▤</span>
+                <span><b>Inventarios y Productos (CRUD)</b><small>Catálogo de materiales y conciliación física/ERP</small></span>
+                <span class="arrow">→</span>
+              </button>
+              <button data-goto="users">
+                <span class="quick-icon violet">♙</span>
+                <span><b>Usuarios y Permisos (CRUD)</b><small>Cuentas, empleados retirados y accesos sin MFA</small></span>
+                <span class="arrow">→</span>
+              </button>
+              <button data-goto="uploads">
+                <span class="quick-icon blue">⇧</span>
+                <span><b>Carga masiva de CSV</b><small>Importar datos estructurados de fuentes externas</small></span>
+                <span class="arrow">→</span>
+              </button>
             </div>
           </article>
         </div>
-        <p class="footnote">Los datos se procesan localmente en el navegador. Al recargar la página se perderán los archivos cargados y los registros manuales.</p>
+        <p class="footnote">Los datos se almacenan localmente en tu navegador mediante LocalStorage. Puedes crear, editar o eliminar registros de usuarios, productos, bodegas y evidencias de manera persistente.</p>
       </section>
 
+      <!-- SECCIÓN: CARGA DE ARCHIVOS -->
       <section class="panel" id="uploads">
-        <div class="page-heading"><div><p class="eyebrow">FUENTES DE INFORMACIÓN</p><h1>Carga de información</h1><p class="subtitle">Importa los archivos de cada área para habilitar los análisis de auditoría.</p></div></div>
-        <div class="dropzone" id="dropzone"><div class="upload-symbol">⇧</div><div><b>Arrastra tus archivos CSV aquí</b><p>o selecciona los archivos desde tu equipo. Puedes cargar varios a la vez.</p></div><label class="btn btn-primary file-button">Seleccionar archivos<input id="bulkInput" type="file" accept=".csv,text/csv" multiple></label></div>
-        <div class="upload-toolbar"><div><h2>Archivos por área</h2><p>Se valida el nombre y la estructura de las columnas de cada archivo.</p></div><span class="schema-count">21 ESQUEMAS DISPONIBLES</span></div>
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">FUENTES DE INFORMACIÓN</p>
+            <h1>Carga de información</h1>
+            <p class="subtitle">Importa los archivos CSV de cada área para habilitar o complementar los análisis de auditoría.</p>
+          </div>
+        </div>
+        <div class="dropzone" id="dropzone">
+          <div class="upload-symbol">⇧</div>
+          <div>
+            <b>Arrastra tus archivos CSV aquí</b>
+            <p>o selecciona los archivos desde tu equipo. Puedes cargar varios a la vez.</p>
+          </div>
+          <label class="btn btn-primary file-button">
+            Seleccionar archivos
+            <input id="bulkInput" type="file" accept=".csv,text/csv" multiple>
+          </label>
+        </div>
+        <div class="upload-toolbar">
+          <div>
+            <h2>Archivos por área</h2>
+            <p>Se valida el nombre y la estructura de las columnas de cada archivo.</p>
+          </div>
+          <span class="schema-count">ESQUEMAS AUDITABLES</span>
+        </div>
         <div id="uploadGrid" class="upload-grid"></div>
       </section>
 
+      <!-- SECCIÓN: INVENTARIOS Y PRODUCTOS -->
       <section class="panel" id="inventory">
-        <div class="page-heading"><div><p class="eyebrow">ANÁLISIS Y CONCILIACIÓN</p><h1>Auditoría de inventarios</h1><p class="subtitle">Diferencias entre los registros del ERP, archivos Excel y conteos físicos.</p></div><button class="btn btn-secondary" data-goto="uploads">⇧ Gestionar archivos</button></div>
-        <div id="inventoryResults" class="results-placeholder"><div class="empty-icon">▤</div><h3>Aún no hay resultados</h3><p>Carga productos, inventario ERP y al menos una fuente de comparación (Excel o conteo físico) para ejecutar el análisis.</p><button class="btn btn-primary" data-goto="uploads">Ir a carga de información</button></div>
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">GESTIÓN Y CONTROL</p>
+            <h1>Inventarios y Productos</h1>
+            <p class="subtitle">Administración del catálogo de materiales y conciliación de diferencias físicas vs ERP.</p>
+          </div>
+          <div class="subtabs-nav">
+            <button class="subtab-btn active" data-subtab="inv-analysis-view">Análisis de Conciliación</button>
+            <button class="subtab-btn" data-subtab="inv-crud-view">Catálogo de Productos (CRUD)</button>
+          </div>
+        </div>
+        <div class="subtab-content active" id="inv-analysis-view">
+          <div id="inventoryResults" class="results-placeholder"></div>
+        </div>
+        <div class="subtab-content" id="inv-crud-view">
+          <div id="productCrudContainer"></div>
+        </div>
       </section>
 
+      <!-- SECCIÓN: BODEGAS (CRUD) -->
+      <section class="panel" id="bodegas">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">OBJETOS MAESTROS</p>
+            <h1>Gestión de Bodegas</h1>
+            <p class="subtitle">Alta, consulta, edición y baja de bodegas y centros de acopio de metal.</p>
+          </div>
+        </div>
+        <div id="bodegasCrudContainer"></div>
+      </section>
+
+      <!-- SECCIÓN: USUARIOS Y PERMISOS -->
       <section class="panel" id="users">
-        <div class="page-heading"><div><p class="eyebrow">CONTROL DE ACCESO</p><h1>Usuarios y permisos</h1><p class="subtitle">Validaciones sobre cuentas activas, empleados retirados y sesiones posteriores a la baja.</p></div><button class="btn btn-secondary" data-goto="uploads">⇧ Gestionar archivos</button></div>
-        <div id="userFindings" class="results-placeholder"><div class="empty-icon">♙</div><h3>Información pendiente</h3><p>Carga los archivos empleados.csv y usuarios.csv para consultar los hallazgos de acceso.</p></div>
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">CONTROL DE ACCESO</p>
+            <h1>Usuarios y permisos</h1>
+            <p class="subtitle">Validaciones de auditoría sobre cuentas activas y CRUD de credenciales del ERP.</p>
+          </div>
+          <div class="subtabs-nav">
+            <button class="subtab-btn active" data-subtab="users-findings-view">Hallazgos de Auditoría</button>
+            <button class="subtab-btn" data-subtab="users-crud-view">Gestión de Usuarios (CRUD)</button>
+          </div>
+        </div>
+        <div class="subtab-content active" id="users-findings-view">
+          <div id="userFindings" class="results-placeholder"></div>
+        </div>
+        <div class="subtab-content" id="users-crud-view">
+          <div id="usersCrudContainer"></div>
+        </div>
       </section>
 
+      <!-- SECCIÓN: EVIDENCIAS DE ACCESO -->
       <section class="panel" id="evidence">
-        <div class="page-heading"><div><p class="eyebrow">DOCUMENTACIÓN DE AUDITORÍA</p><h1>Evidencias de acceso</h1><p class="subtitle">Registra observaciones manuales relacionadas con accesos y privilegios del ERP.</p></div></div>
-        <div class="content-card form-card"><div class="card-heading"><div><h3>Registrar nueva evidencia</h3><p>Completa los datos del evento identificado.</p></div><span class="form-step">NUEVO REGISTRO</span></div>
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">DOCUMENTACIÓN DE AUDITORÍA</p>
+            <h1>Evidencias de acceso</h1>
+            <p class="subtitle">Registra y administra observaciones manuales relacionadas con accesos y privilegios del ERP.</p>
+          </div>
+        </div>
+        <div class="content-card form-card">
+          <div class="card-heading">
+            <div>
+              <h3>Registrar nueva evidencia</h3>
+              <p>Completa los datos del evento identificado.</p>
+            </div>
+            <span class="form-step">NUEVO REGISTRO</span>
+          </div>
           <form id="accessForm" class="form-grid">
-            <label>Usuario o cuenta<input id="user" required placeholder="Ej. jperez"></label>
-            <label>Rol / cargo<input id="role" required placeholder="Ej. Auxiliar de compras"></label>
-            <label class="wide">Evento observado<input id="event" required placeholder="Describe la situación identificada"></label>
-            <label>Fecha y hora<input id="datetime" type="datetime-local" required></label>
-            <label>IP / origen<input id="ip" placeholder="Ej. 192.168.1.10"></label>
-            <label>Nivel de riesgo<select id="risk"><option>Alto</option><option selected>Medio</option><option>Bajo</option></select></label>
-            <div class="form-actions"><button class="btn btn-primary" type="submit">＋ Registrar evidencia</button></div>
+            <label>Usuario o cuenta
+              <input id="user" required placeholder="Ej. jperez">
+            </label>
+            <label>Rol / cargo
+              <input id="role" required placeholder="Ej. Auxiliar de compras">
+            </label>
+            <label class="wide">Evento observado
+              <input id="event" required placeholder="Describe la situación identificada">
+            </label>
+            <label>Fecha y hora
+              <input id="datetime" type="datetime-local" required>
+            </label>
+            <label>IP / origen
+              <input id="ip" placeholder="Ej. 192.168.1.10">
+            </label>
+            <label>Nivel de riesgo
+              <select id="risk">
+                <option>Alto</option>
+                <option selected>Medio</option>
+                <option>Bajo</option>
+              </select>
+            </label>
+            <div class="form-actions">
+              <button class="btn btn-primary" type="submit">＋ Registrar evidencia</button>
+            </div>
           </form>
         </div>
-        <div class="content-card table-card"><div class="card-heading"><div><h3>Registro de evidencias</h3><p>Observaciones precargadas y registros de esta sesión.</p></div><span class="count-pill" id="evidenceCount">0 registros</span></div><div class="table-wrap"><table><thead><tr><th>Usuario</th><th>Rol / cargo</th><th>Evento</th><th>Fecha y hora</th><th>Origen</th><th>Riesgo</th></tr></thead><tbody id="accessRows"></tbody></table></div></div>
+        <div class="content-card table-card">
+          <div class="card-heading">
+            <div>
+              <h3>Registro de evidencias</h3>
+              <p>Observaciones de auditoría (gestionables y persistentes).</p>
+            </div>
+            <span class="count-pill" id="evidenceCount">0 registros</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Usuario</th>
+                  <th>Rol / cargo</th>
+                  <th>Evento</th>
+                  <th>Fecha y hora</th>
+                  <th>Origen</th>
+                  <th>Riesgo</th>
+                  <th style="text-align:right;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="accessRows"></tbody>
+            </table>
+          </div>
+        </div>
       </section>
 
+      <!-- SECCIÓN: PROYECTO IOT -->
       <section class="panel" id="project">
-        <div class="page-heading"><div><p class="eyebrow">SEGUIMIENTO DE INVERSIÓN</p><h1>Proyecto IoT</h1><p class="subtitle">Registro de iniciativas y consulta de información presupuestal, contractual y de entregables.</p></div></div>
-        <div class="project-layout"><div class="content-card form-card"><div class="card-heading"><div><h3>Registrar proyecto</h3><p>Formulario de demostración para documentar una iniciativa.</p></div></div>
-          <form id="projectForm" class="form-grid single"><label>Nombre del proyecto<input id="projectName" required placeholder="Ej. Modernización IoT de planta"></label><label>Responsable<input id="projectOwner" placeholder="Nombre del responsable"></label><label>Descripción<textarea id="projectDescription" rows="4" placeholder="Objetivo y alcance general del proyecto"></textarea></label><div class="form-actions"><button class="btn btn-primary" type="submit">Guardar registro</button></div></form><p id="projectMessage" class="form-message"></p></div>
-          <div class="content-card project-info"><div class="project-icon">◇</div><h3>Fuentes del proyecto IoT</h3><p>Los archivos cargados en esta área permiten revisar la trazabilidad entre presupuesto, contratos, entregables, actas, facturas y pagos.</p><ul><li>presupuesto_iot.csv</li><li>contratos_iot.csv</li><li>entregables_iot.csv</li><li>actas_aceptacion.csv</li><li>facturas_iot.csv</li><li>pagos_iot.csv</li></ul><button class="btn btn-secondary" data-goto="uploads">Ver archivos del proyecto</button></div></div>
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">SEGUIMIENTO DE INVERSIÓN</p>
+            <h1>Proyecto IoT</h1>
+            <p class="subtitle">Registro de iniciativas y consulta de información presupuestal, contractual y de entregables.</p>
+          </div>
+        </div>
+        <div class="project-layout">
+          <div class="content-card form-card">
+            <div class="card-heading">
+              <div>
+                <h3>Registrar proyecto</h3>
+                <p>Formulario de demostración para documentar una iniciativa.</p>
+              </div>
+            </div>
+            <form id="projectForm" class="form-grid single">
+              <label>Nombre del proyecto
+                <input id="projectName" required placeholder="Ej. Modernización IoT de planta">
+              </label>
+              <label>Responsable
+                <input id="projectOwner" placeholder="Nombre del responsable">
+              </label>
+              <label>Descripción
+                <textarea id="projectDescription" rows="4" placeholder="Objetivo y alcance general del proyecto"></textarea>
+              </label>
+              <div class="form-actions">
+                <button class="btn btn-primary" type="submit">Guardar registro</button>
+              </div>
+            </form>
+            <p id="projectMessage" class="form-message"></p>
+          </div>
+          <div class="content-card project-info">
+            <div class="project-icon">◇</div>
+            <h3>Fuentes del proyecto IoT</h3>
+            <p>Los archivos cargados en esta área permiten revisar la trazabilidad entre presupuesto, contratos, entregables, actas, facturas y pagos.</p>
+            <ul>
+              <li>presupuesto_iot.csv</li>
+              <li>contratos_iot.csv</li>
+              <li>entregables_iot.csv</li>
+              <li>actas_aceptacion.csv</li>
+              <li>facturas_iot.csv</li>
+              <li>pagos_iot.csv</li>
+            </ul>
+            <button class="btn btn-secondary" data-goto="uploads">Ver archivos del proyecto</button>
+          </div>
+        </div>
       </section>
-      <footer class="main-footer"><span>MetalVerde · Plataforma de demostración</span><span>Procesamiento local · Sin persistencia de datos</span></footer>
+
+      <footer class="main-footer">
+        <span>GesMetal · Plataforma de Auditoría Interna ERP</span>
+        <span>Persistencia LocalStorage · Sin servidor obligatorio</span>
+      </footer>
     </main>
   </div>
-  <script src="app.js"></script>
+  <script src="js/schemas.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/modules/csvService.js"></script>
+  <script src="js/modules/bodegaManager.js"></script>
+  <script src="js/modules/userManager.js"></script>
+  <script src="js/modules/inventoryManager.js"></script>
+  <script src="js/modules/evidenceManager.js"></script>
+  <script src="js/modules/auditReports.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>
